@@ -1,0 +1,160 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Hello TrajetController!
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-12 ">
+			<h4 class="mb-3">Trajet :
+				{{trajet.getDepart()}}
+				-
+				{{trajet.getDestination()}}</h4>
+			<div>
+				<div class="mb-3 ">
+					<h6>Moyens de transports :</h6>
+					<div class="mt-2">
+						<table class="table table-striped">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Organisation</th>
+									<th scope="col">Nom</th>
+									<th scope="col">Type</th>
+									<th scope="col"></th>
+									<th scope="col">Places</th>
+									<th scope="col">Prix</th>
+									<th scope="col">Horaires</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if ligneTransports is empty %}
+									<tr>
+
+										<td colspan="3">
+											<span class="text-secondary text-xs font-weight-bold ">Ce trajet n'a aucun moyens de transport</span>
+										</td>
+									</tr>
+
+
+								{% else %}
+
+									{% for ligne in ligneTransports %}
+										<tr>
+											<th scope="row">
+												<span class="">{{ligne.moyenTransport.organisation}}</span>
+											</th>
+											<td>
+												<span class="text-secondary text-xs font-weight-bold">{{ligne.moyenTransport.nom}}</span>
+											</td>
+											<td>
+												<span class="text-secondary text-xs font-weight-bold">{{ligne.moyenTransport.type}}</span>
+											</td>
+											<td>
+											    <img class="fit-picture" src="/assets/user/images/{{ligne.moyenTransport.icon}}" width='47' alt="{{ligne.moyenTransport.icon}}">
+											</td>
+											<td>
+												<span class="text-secondary text-xs font-weight-bold">{{ligne.moyenTransport.nbrPlaces}}</span>
+											</td>
+											<td>
+												<span class="text-secondary text-xs font-weight-bold ">{{ligne.moyenTransport.prix}}</span>
+											</td>
+											<td>
+												<span class="text-secondary text-xs font-weight-bold">{{ligne.moyenTransport.horaires}}</span>
+											</td>
+											<td>
+												<button type="button" class="btn btn-primary">Réserver</button>
+											</td>
+
+										</tr>
+
+									{% endfor %}
+
+								{% endif %}
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+				<div class="mb-3 ">
+					<h6>Etat du Trajet :</h6>
+					<div class="mt-2">
+						<p>
+							{{trajet.getEtat()}}
+						</p>
+					</div>
+				</div>
+
+				<div class="mb-3 ">
+					<h6>Directions :</h6>
+					<div class="mt-2">
+						<p>
+							{{trajet.getDirections()}}
+						</p>
+					</div>
+				</div>
+
+				<div class="mb-3 ">
+					<h6>Etablissements :</h6>
+					<div class="mt-2">
+
+
+						<div class="table-responsive p-0">
+
+							<table class="table table-striped">
+
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col ">Nom</th>
+										<th scope="col">Type</th>
+										<th scope="col">Adresse</th>
+										<th scope="col">Description</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									{% if trajet.getEtablissements() is empty %}
+										<tr>
+
+											<td colspan="3">
+												<span class="text-secondary text-xs font-weight-bold ">Ce trajet n'a aucun établissement</span>
+											</td>
+										</tr>
+
+
+									{% else %}
+
+										{% for etablissement in trajet.getEtablissements() %}
+											<tr>
+												<th scope="row">
+													<span class="">{{etablissement.nom}}</span>
+												</th>
+												<td>
+													<span class="text-secondary text-xs font-weight-bold">{{etablissement.type}}</span>
+												</td>
+												<td>
+													<span class="text-secondary text-xs font-weight-bold ">{{etablissement.adresse}}</span>
+												</td>
+												<td>
+													<span class="text-secondary text-xs font-weight-bold ">{{etablissement.description}}</span>
+												</td>
+												
+											</tr>
+
+										{% endfor %}
+
+									{% endif %}
+
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
