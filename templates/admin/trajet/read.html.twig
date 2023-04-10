@@ -27,21 +27,21 @@
 		</div>
 	</div>
 
-    <div class="row mb-3">
-		<a href="{{path('app_etablissement_list')}}">
+	<div class="row mb-1">
+		<a href=javascript:history.go(-1)>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
 				<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
 			</svg>
 			Retour</a>
 	</div>
 	<div class="container">
-
+		<h2 class="mb-3">Trajet :
+			{{trajet.getDepart()}}
+			-
+			{{trajet.getDestination()}}</h2>
 		<div class="row">
 			<div class="col-md-12 ">
-				<h4 class="mb-3">Trajet :
-					{{trajet.getDepart()}}
-					-
-					{{trajet.getDestination()}}</h4>
+
 				<div>
 					<div class="mb-3 ">
 						<h6>Etat du Trajet :</h6>
@@ -84,51 +84,56 @@
 						<h6>Etablissements :</h6>
 						<div class="card mb-4">
 
-							
 
-								<div class="table-responsive p-0">
+							<div class="table-responsive p-0">
 
-									<table class="table align-items-center mt-0 mb-0 border">
-										<thead>
+								<table class="table align-items-center mt-0 mb-0 border">
+									<thead>
+										<tr>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Adresse</th>
+											<th class="text-secondary opacity-7"></th>
+										</tr>
+									</thead>
+									<tbody>
+										{% if trajet.getEtablissements() is empty %}
 											<tr>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-												{# <th class="text-secondary opacity-7"></th> #}
+
+												<td colspan="3">
+													<span class="text-secondary text-xs font-weight-bold ">Ce trajet n'a aucun établissement pour le moment</span>
+												</td>
 											</tr>
-										</thead>
-										<tbody>
-											{% if trajet.getEtablissements() is empty %}
+
+
+										{% else %}
+
+											{% for etablissement in trajet.getEtablissements() %}
 												<tr>
-
-													<td colspan="3">
-														<span class="text-secondary text-xs font-weight-bold ">Ce trajet n'a aucun établissement pour le moment</span>
+													<td class="align-middle text-center">
+														<span class="text-secondary text-xs font-weight-bold text-start">{{etablissement.getNom()}}</span>
 													</td>
+													<td class="align-middle text-center">
+														<span class="text-secondary text-xs font-weight-bold">{{etablissement.getType()}}</span>
+													</td>
+													<td class="align-middle text-center">
+														<span class="text-secondary text-xs font-weight-bold ">{{etablissement.adresse}}</span>
+													</td>
+													<td class="align-middle text-center">
+														<a href="{{ path('app_etablissement_read', {'id': etablissement.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+															<button type="button" class="btn btn-info btn-sm">Consulter</button>
+														</a>
+													</td>
+
 												</tr>
+											{% endfor %}
 
+										{% endif %}
 
-											{% else %}
+									</tbody>
+								</table>
+							</div>
 
-												{% for etablissement in trajet.getEtablissements() %}
-													<tr>
-														<td class="align-middle text-center">
-															<span class="text-secondary text-xs font-weight-bold text-start">{{etablissement.getNom()}}</span>
-														</td>
-														<td class="align-middle text-center">
-															<span class="text-secondary text-xs font-weight-bold">{{etablissement.getType()}}</span>
-														</td>
-														<td class="align-middle text-center">
-															<span class="text-secondary text-xs font-weight-bold ">{{etablissement.getDescription()}}</span>
-														</td>
-													</tr>
-												{% endfor %}
-
-											{% endif %}
-
-										</tbody>
-									</table>
-								</div>
-							
 						</div>
 					</div>
 

@@ -6,15 +6,19 @@
 
 {% block body %}
 
-<div class="row mb-3">
-		<a href="{{path('app_etablissement_list')}}">
+<div class="row mb-2">
+		<a href=javascript:history.go(-1)>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
 				<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
 			</svg>
-			Retour</a>
+			Retour
+		</a>
+		
 	</div>
+	
 	<div class="container">
-		<div class="row my-3 d-flex justify-content-center ">
+	<h2>Création d'un Trajet</h2>
+		<div class="row d-flex  ">
 			<div class="col-sm-8 col-md-6">
 				<div style="display: {{display}} ;">
 					<div class="alert alert-danger d-flex align-items-center " role="alert">
@@ -31,8 +35,9 @@
 				</div>
 			</div>
 		</div>
+		
 		{{ form_start(form, {'attr' : {'novalidate': 'novalidate'}}) }}
-		<div class="row my-3">
+		<div class="row mb-3">
 			<div class="col-8 col-md-4 col-lg-3 ">
 				<label class="text-dark">Depart :</label>
 				<div class="input-group input-group-outline ">
@@ -115,12 +120,12 @@
 			</div>
 		</div>
 
-		<div class="row my-3">
+		<div class="row">
 			<div class="col-8 col-md-2 col-lg-1"></div>
 			<div class="col-8 col-md-4 col-lg-4">
 				<div class="text-center">
 
-					{{ form_widget(form.save, {'attr': {'class': 'btn bg-gradient-success w-100 my-4 mb-2'}, 'label': 'Ajouter Trajet'}) }}
+					{{ form_widget(form.save, {'attr': {'class': 'btn bg-gradient-success w-100 '}, 'label': 'Ajouter Trajet'}) }}
 
 				</div>
 			</div>

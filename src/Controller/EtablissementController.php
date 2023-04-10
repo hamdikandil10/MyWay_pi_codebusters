@@ -7,11 +7,15 @@ use App\Form\SearchEtablissementType;
 use App\Form\EtablissementType;
 use App\Entity\Etablissement;
 use App\Repository\EtablissementRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class EtablissementController extends AbstractController
 {
@@ -38,21 +42,44 @@ class EtablissementController extends AbstractController
     }
 
     #[Route('/etablissement/create', name: 'app_etablissement_create')]
-    public function create(ManagerRegistry $doctrine, Request $request): Response
+    public function create(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
     {
-        $display='none';
+
+        $display = 'none';
         $etablissement = new Etablissement();
         $form = $this->createForm(EtablissementType::class, $etablissement);
+        $etablissement->setViews(0);
+        $etablissement->setDateCreation(new DateTime());
+        $etablissement->setImage(null);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             
             $rep = $doctrine->getRepository(Etablissement::class);
             $etab = $rep->findOneBy(['adresse' => $form['adresse']->getData()]);
             if ($etab == null) {
+
+                $imageFile = $form['imageFile']->getData();
+                if($imageFile){
+                    $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+        
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/assets/admin/imgEtablissement',
+                        $newFilename
+                    );
+        
+                    $etablissement->setImage($newFilename);
+                }
+                
+
                 $em = $doctrine->getManager();
                 $em->persist($etablissement);
                 $em->flush();
+                
                 return $this->redirectToRoute('app_etablissement_list');
             } else {
                 $display = '';
@@ -61,7 +88,7 @@ class EtablissementController extends AbstractController
                     "form" => $form,
                     "display" => $display
                 ]);
-                
+
             }
 
 
@@ -85,25 +112,48 @@ class EtablissementController extends AbstractController
     }
 
     #[Route('/etablissement/update/{id}', name: 'app_etablissement_update')]
-    public function update($id, ManagerRegistry $doctrine, Request $request): Response
+    public function update($id, ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
     {
+
         $repository = $doctrine->getRepository(Etablissement::class);
         $etablissement = $repository->find($id);
         $form = $this->createForm(EtablissementType::class, $etablissement);
+        //$path = $this->getParameter('kernel.project_dir') . '\public\assets\admin\imgEtablissement/' . $etablissement->getImage();
+        //$file = new File($path);
+        //$form['imageFile']->setData($file);
+        //$form['imageFile']->setData($this->file($this->getParameter('kernel.project_dir') . '\public\assets\admin\imgEtablissement/' . $etablissement->getImage()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $imageFile = $form['imageFile']->getData();
+            if($imageFile){
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+    
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/assets/admin/imgEtablissement',
+                    $newFilename
+                );
+    
+                $etablissement->setImage($newFilename);
+            }
+            
+
             $em = $doctrine->getManager();
             $em->persist($etablissement);
             $em->flush();
-            return $this->redirectToRoute("app_etablissement_list");
+            
+            return $this->redirectToRoute('app_etablissement_list');
+
 
         }
 
         return $this->render('admin/etablissement/update.html.twig', [
             'pageName' => 'Modification d\'un etablissement',
-            'etablissements' => $etablissement,
+            'etablissement' => $etablissement,
             "form" => $form->createView()
         ]);
     }
@@ -118,4 +168,29 @@ class EtablissementController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_etablissement_list');
     }
+
+    #-----------------------------USER-------------------------#
+
+    #[Route('/etablissement/details/{id}', name: 'app_etablissement_details')]
+    public function details($id, EtablissementRepository $repository): Response
+    {
+        $etablissement = $repository->find($id);
+        return $this->render('user/etablissement/details.html.twig', [
+            'pageName' => 'Etablissement / ' . $etablissement->getNom(),
+            'etablissement' => $etablissement
+        ]);
+    }
+
+
+    function write_to_console($data)
+    {
+        $console = $data;
+        if (is_array($console))
+            $console = implode(',', $console);
+
+        echo "<script>console.log('Console: " . $console . "' );</script>";
+    }
+
+
+
 }

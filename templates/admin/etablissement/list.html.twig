@@ -77,12 +77,16 @@
 									<th rowspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Type</th>
 									
 									<th colspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Trajet</th>
+									<th rowspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">nombre de vues</th>
+									<th rowspan="2" class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Date de Création</th>
 									<th rowspan="2" class="text-secondary opacity-7"></th>
 								</tr>
 								<tr>	
 									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Depart</th>
 									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Destination</th>	
+									
 								</tr>
+								
 							</thead>
 							<tbody>
 								{% for etablissement in etablissements %}
@@ -101,6 +105,12 @@
 										</td>
 										<td class="align-middle text-center">
 											<span class="text-secondary text-xs font-weight-bold">{{etablissement.getTrajet().getDestination()}}</span>
+										</td>
+										<td class="align-middle text-center">
+											<span class="text-secondary text-xs font-weight-bold">{{etablissement.views}}</span>
+										</td>
+										<td class="align-middle text-center">
+											<span class="text-secondary text-xs font-weight-bold text-start">{{etablissement.dateCreation | date}}</span>
 										</td>
 										<td class="align-middle text-center">
 											<a href="{{ path('app_etablissement_read', {'id': etablissement.getId()}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

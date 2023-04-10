@@ -39,7 +39,7 @@ class Trajet
     private ?float $latitude = null;
 
     #[Assert\NotNull(message:"Veuillez saisir ce champ")]
-    #[Assert\Type(type: "float", message: "Veuillez saisir un nombre")]
+    #[Assert\Type(type: 'float', message:"Veuillez saisir un nombre")]
     #[ORM\Column]
     private ?float $longitude = null;
 

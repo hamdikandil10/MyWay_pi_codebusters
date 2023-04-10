@@ -98,7 +98,7 @@ class TrajetController extends AbstractController
 
         return $this->renderForm('admin/trajet/update.html.twig', [
             'pageName' => 'Modification d\'un Trajet',
-            'trajets'=> $trajet,
+            'trajet'=> $trajet,
             "form" => $form
         ]);
     }
