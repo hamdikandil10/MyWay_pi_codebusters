@@ -5,6 +5,7 @@ use App\Entity\Trajet;
 use App\Form\SearchTrajetType;
 use App\Form\SearchTrajetByDepartAndDestinationType;
 use App\Form\TrajetType;
+use DateTime;
 use App\Repository\TrajetRepository;
 use App\Repository\LigneTransportRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,11 +43,14 @@ class TrajetController extends AbstractController
     public function create(ManagerRegistry $doctrine, Request $request): Response {
         $display='none';
         $trajet = new Trajet();
+        $trajet->setViews(0);
+        date_default_timezone_set('Africa/Tunis');
+        $trajet->setDateCreation(new DateTime());
         $form = $this->createForm(TrajetType::class, $trajet);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            
+             
             $rep = $doctrine->getRepository(Trajet::class);
             $t = $rep->findByDepartAndDestination($form['depart']->getData(), $form['destination']->getData());
             if($t == null){
@@ -142,9 +146,14 @@ class TrajetController extends AbstractController
     }
 
     #[Route('/trajet/details/{id}', name: 'app_trajet_details')]
-    public function details($id, TrajetRepository $trajetRep, LigneTransportRepository $ligneTransportRep): Response {
+    public function details($id, TrajetRepository $trajetRep, LigneTransportRepository $ligneTransportRep, ManagerRegistry $doctrine): Response {
         $ligneTransports = $ligneTransportRep->findByIdTrajet($id);
         $trajet= $trajetRep->find($id);
+        if($trajet){
+            $trajet->setViews($trajet->getViews()+1);
+            $em = $doctrine->getManager();
+            $em->flush();
+        }
         return $this->render('user/trajet/details.html.twig', [
             'ligneTransports'=> $ligneTransports,
             'trajet'=> $trajet

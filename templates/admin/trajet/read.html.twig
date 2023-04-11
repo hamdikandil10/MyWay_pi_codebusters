@@ -1,6 +1,9 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Trajet
+{% block title %}
+{{trajet.getDepart()}}
+			-
+			{{trajet.getDestination()}}
 {% endblock %}
 
 {% block body %}
@@ -61,6 +64,15 @@
 						</div>
 					</div>
 
+					<div class="mb-3 ">
+						<h6>Distance :</h6>
+						<div class="">
+							<p>
+								{{trajet.distance ~' km'~}}
+							</p>
+						</div>
+					</div>
+
 					<div class="row">
 						<h6>Coordonnées :</h6>
 						<div class="col-md-3 mb-3">
@@ -76,6 +88,24 @@
 									<p>{{trajet.getLongitude()}}</p>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					<div class="mb-3 ">
+						<h6>Nombre de vues :</h6>
+						<div class="">
+							<p>
+								{{trajet.views}}
+							</p>
+						</div>
+					</div>
+
+					<div class="mb-3 ">
+						<h6>Date de création :</h6>
+						<div class="">
+							<p>
+								{{trajet.dateCreation | date}}
+							</p>
 						</div>
 					</div>
 

@@ -16,7 +16,7 @@
 			Retour</a>
 	</div>
 	<div class="container">
-	<h3>Modification du trajet "{{trajet.depart ~' --- '~ trajet.destination}}"</h3>
+	<h3>Modification du trajet "{{trajet.depart ~' - '~ trajet.destination}}"</h3>
         {{ form_start(form, {'attr' : {'novalidate': 'novalidate'}}) }}
 		<div class="row mb-3">
 			<div class="col-8 col-md-4 col-lg-3 ">
@@ -71,6 +71,22 @@
 					
 				</div>
 				
+			</div>
+		</div>
+
+		<div class="row my-3">
+			<div class="col-8 col-md-8 col-lg-3">
+				<label class="text-dark">Distance (km) :</label>
+				<div class="input-group input-group-outline">
+
+					{{form_widget(form.distance, {'attr': {'class': 'form-control bg-white'}})}}
+
+				</div>
+				<div class="text-danger">
+					{{form_errors(form.distance) }}
+
+				</div>
+
 			</div>
 		</div>
 

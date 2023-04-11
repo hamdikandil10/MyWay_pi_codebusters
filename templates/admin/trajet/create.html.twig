@@ -93,6 +93,22 @@
 			</div>
 		</div>
 
+		<div class="row my-3">
+			<div class="col-8 col-md-8 col-lg-3">
+				<label class="text-dark">Distance (km) :</label>
+				<div class="input-group input-group-outline">
+
+					{{form_widget(form.distance, {'attr': {'class': 'form-control bg-white'}})}}
+
+				</div>
+				<div class="text-danger">
+					{{form_errors(form.distance) }}
+
+				</div>
+
+			</div>
+		</div>
+
 
 		<div class="row my-3">
 			<div class="col-8 col-md-4 col-lg-3">
@@ -103,7 +119,7 @@
 				</div>
 				<div class="text-danger">
 					{{ form_errors(form.latitude) }}
-
+ 
 				</div>
 			</div>
 			<div class="col-8 col-md-4 col-lg-3">

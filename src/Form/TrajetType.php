@@ -19,6 +19,7 @@ class TrajetType extends AbstractType
             ->add('destination')
             ->add('etat')
             ->add('directions')
+            ->add('distance')
             ->add('latitude')
             ->add('longitude')
             ->add('save', SubmitType::class)

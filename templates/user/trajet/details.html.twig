@@ -1,6 +1,9 @@
 {% extends 'user/base.html.twig' %}
 
-{% block title %}Hello TrajetController!
+{% block title %}
+{{trajet.getDepart()}}
+				-
+				{{trajet.getDestination()}}
 {% endblock %}
 
 {% block body %}
@@ -14,10 +17,10 @@
 
 		<div class="col-md-12 ">
 
-			<h4 class="mb-3">Trajet :
+			<h3 class="mb-3">
 				{{trajet.getDepart()}}
 				-
-				{{trajet.getDestination()}}</h4>
+				{{trajet.getDestination()}}</h3>
 			<div>
 				<div class="mb-3 ">
 					<h6>Moyens de transports :</h6>
@@ -99,6 +102,15 @@
 					<div class="mt-2">
 						<p>
 							{{trajet.getDirections()}}
+						</p>
+					</div>
+				</div>
+
+                <div class="mb-3 ">
+					<h6>Nombre de vues :</h6>
+					<div class="mt-2">
+						<p>
+							{{'Ce trajet a été consulté '~ trajet.views ~' fois'}}
 						</p>
 					</div>
 				</div>

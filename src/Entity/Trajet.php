@@ -46,6 +46,18 @@ class Trajet
     #[ORM\OneToMany(mappedBy: 'trajet', targetEntity: Etablissement::class)]
     private Collection $etablissements;
 
+    #[Assert\NotNull(message:"Veuillez saisir ce champ")]
+    //#[Assert\Type(type: 'numeric', message: "Veuillez saisir un nombre")]
+    #[Assert\Positive(message: "La distance doit étre positive")]
+    #[ORM\Column]
+    private ?float $distance = null;
+
+    #[ORM\Column]
+    private ?int $views = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateCreation = null;
+
     public function __construct()
     {
         $this->etablissements = new ArrayCollection();
@@ -157,4 +169,42 @@ class Trajet
 
         return $this;
     }
+
+    public function getDistance(): ?int
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(?int $distance): self
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(?int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(?\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    
 }

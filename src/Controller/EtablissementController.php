@@ -49,6 +49,7 @@ class EtablissementController extends AbstractController
         $etablissement = new Etablissement();
         $form = $this->createForm(EtablissementType::class, $etablissement);
         $etablissement->setViews(0);
+        date_default_timezone_set('Africa/Tunis');
         $etablissement->setDateCreation(new DateTime());
         $etablissement->setImage(null);
         $form->handleRequest($request);
@@ -105,6 +106,8 @@ class EtablissementController extends AbstractController
     public function read($id, EtablissementRepository $repository): Response
     {
         $etablissement = $repository->find($id);
+        
+
         return $this->render('admin/etablissement/read.html.twig', [
             'pageName' => 'Etablissement / ' . $etablissement->getNom(),
             'etablissement' => $etablissement
@@ -146,7 +149,7 @@ class EtablissementController extends AbstractController
             $em->persist($etablissement);
             $em->flush();
             
-            return $this->redirectToRoute('app_etablissement_list');
+            return $this->redirectToRoute('app_etablissement_read', ['id' => $id]);
 
 
         }
@@ -172,9 +175,14 @@ class EtablissementController extends AbstractController
     #-----------------------------USER-------------------------#
 
     #[Route('/etablissement/details/{id}', name: 'app_etablissement_details')]
-    public function details($id, EtablissementRepository $repository): Response
+    public function details($id, EtablissementRepository $repository, ManagerRegistry $doctrine): Response
     {
         $etablissement = $repository->find($id);
+        if($etablissement){
+            $etablissement->setViews($etablissement->getViews()+1);
+            $em = $doctrine->getManager();
+            $em->flush();
+        }
         return $this->render('user/etablissement/details.html.twig', [
             'pageName' => 'Etablissement / ' . $etablissement->getNom(),
             'etablissement' => $etablissement

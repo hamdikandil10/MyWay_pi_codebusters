@@ -72,11 +72,11 @@
 						<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Depart</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Destination</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Etat</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Latitude</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Langitude</th>
+									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Depart</th>
+									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Destination</th>
+									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Etat</th>
+									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nombre de vues</th>
+									<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Date de création</th>
 									<th class="text-secondary opacity-7"></th>
 								</tr>
 							</thead>
@@ -104,10 +104,10 @@
 												<span class="text-secondary text-xs font-weight-bold ">{{trajet.getEtat()}}</span>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{trajet.getLatitude()}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{trajet.views}}</span>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{trajet.getLongitude()}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{trajet.dateCreation | date}}</span>
 											</td>
 											<td class="align-middle text-center">
 												<a href="{{ path('app_trajet_read', {'id': trajet.getId()}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
